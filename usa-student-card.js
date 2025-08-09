@@ -3,7 +3,7 @@ const usaUniversities = [
     {
         name: "Santa Fe College",
         shortName: "SFC",
-        logo: "https://logos-world.net/wp-content/uploads/2023/01/Santa-Fe-College-Logo.png",
+        logo: "logo-sf.png",
         state: "Florida"
     }
 ];
@@ -60,12 +60,12 @@ const usaMajors = [
     "International Relations", "Environmental Science", "Pre-Med", "Pre-Law", "Theatre Arts"
 ];
 
-// Danh sách các trường/khoa USA
+// Danh sách các trường/khoa USA (giống format India)
 const usaSchools = [
-    "School of Engineering", "College of Arts and Sciences", "Business School", "School of Medicine",
-    "Law School", "School of Education", "School of Nursing", "Graduate School of Arts and Sciences",
-    "School of Public Health", "School of Architecture", "School of Music", "College of Liberal Arts",
-    "School of Communications", "College of Fine Arts", "School of Social Work", "School of Pharmacy"
+    "Computer Science", "Information Technology", "Electronics Engineering",
+    "Mechanical Engineering", "Civil Engineering", "Chemical Engineering",
+    "Biotechnology", "Physics", "Mathematics", "Chemistry", "Business Administration",
+    "Economics", "Psychology", "English Literature", "History", "Political Science"
 ];
 
 // Lưu danh sách ảnh trả về từ API để chọn
@@ -136,8 +136,11 @@ function generateUSACourse() {
 
 function generateValidUntil() {
     const currentDate = new Date();
-    const validDate = new Date(currentDate.getFullYear() + Math.floor(Math.random() * 3) + 1, 4, 31); // May 31st
-    return validDate.toLocaleDateString('en-US');
+    const validDate = new Date(currentDate.getFullYear() + Math.floor(Math.random() * 3) + 1, 11, 30); // December 30th
+    const day = validDate.getDate().toString().padStart(2, '0');
+    const month = (validDate.getMonth() + 1).toString().padStart(2, '0');
+    const year = validDate.getFullYear();
+    return `${day}/${month}/${year}`;
 }
 
 async function generateUSAStudentCard() {
@@ -163,7 +166,7 @@ async function generateUSAStudentCard() {
         const dob = generateRandomDate();
         const course = generateUSACourse();
         const major = getRandomElement(usaMajors);
-        const school = getRandomElement(usaSchools);
+        const department = getRandomElement(usaSchools);
         const studentId = generateUSAStudentID(university.shortName);
         const validUntil = generateValidUntil();
         
@@ -180,8 +183,7 @@ async function generateUSAStudentCard() {
         document.getElementById('student-dob').textContent = dob;
         document.getElementById('student-course').textContent = course;
         document.getElementById('student-class').textContent = major;
-        document.getElementById('student-department').textContent = school;
-        document.getElementById('student-state').textContent = university.state;
+        document.getElementById('student-department').textContent = department;
         document.getElementById('student-photo').src = photoUrl;
         document.getElementById('student-id').textContent = `🆔 Student ID: ${studentId}`;
         document.getElementById('valid-until').textContent = validUntil;
